@@ -8,8 +8,8 @@ interface InvertedIterator<T>{
 export async function* pushToPull<T>(
     onIterationStep: (cf: InvertedIterator<T>) => void
 ): AsyncGenerator<T, undefined, unknown> {
-    let res = (_v: IteratorResult<T>|PromiseLike<IteratorResult<T>>) => {};
-    let rej = (_reason?: unknown) => {};
+    let res = /*  istanbul ignore next */ (_: IteratorResult<T>|PromiseLike<IteratorResult<T>>) => {};
+    let rej = /*  istanbul ignore next */ (_?: unknown) => {};
 
     onIterationStep({
         next: (value) => res({value, done: false}),
