@@ -1,5 +1,6 @@
 import { pushToPull } from "./pushToPull";
 import { EventEmitter } from "events";
+import {collect} from "./collect";
 
 describe("pushToPull Async Iterator", () => {
   type EventEmitterIterator =
@@ -41,6 +42,22 @@ describe("pushToPull Async Iterator", () => {
     for await (const event of asyncIter) {
       expect(event).toEqual({ event: "exit", statusCode: 0 });
     }
+  });
+
+  it("Should maintain order of events", async () => {
+    const ee = new EventEmitter();
+    const asyncIter = pushToPull((iter) => {
+      ee.on('event', (x) => iter.next(x));
+      ee.on('end', () => iter.return())
+    });
+
+    ee.emit("event", 1);
+    ee.emit("event", 2);
+    ee.emit("event", 3);
+    ee.emit("event", 4);
+    ee.emit("end");
+
+    expect(await collect(asyncIter)).toEqual([1,2,3,4]);
   });
 
   it("Should handle some non-obvious racy things", async () => {

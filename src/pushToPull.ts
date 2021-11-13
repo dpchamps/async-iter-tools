@@ -1,12 +1,12 @@
 interface InvertedIterator<T> {
   next: (v: T) => void;
-  return: (v: T) => void;
+  return: (v?: T) => void;
   throw: (reason?: unknown) => void;
 }
 
-export async function* pushToPull<T>(
+export const pushToPull = <T>(
   onIterationStep: (cf: InvertedIterator<T>) => void
-): AsyncGenerator<T, undefined, unknown> {
+) => {
   let res = /*  istanbul ignore next */ (
     _: IteratorResult<T> | PromiseLike<IteratorResult<T>>
   ) => {};
@@ -18,20 +18,22 @@ export async function* pushToPull<T>(
     throw: (e?: any) => rej(e),
   });
 
-  while (true) {
-    try {
-      const { value, done } = await new Promise<IteratorResult<T>>(
-        (resolve, reject) => {
-          res = resolve;
-          rej = reject;
-        }
-      );
+  return (async function* () : AsyncGenerator<T, undefined, unknown> {
+    while (true) {
+      try {
+        const { value, done } = await new Promise<IteratorResult<T>>(
+            (resolve, reject) => {
+              res = resolve;
+              rej = reject;
+            }
+        );
 
-      yield value;
+        yield value;
 
-      if (done) return;
-    } catch (e) {
-      throw e;
+        if (done) return;
+      } catch (e) {
+        throw e;
+      }
     }
-  }
+  })();
 }
