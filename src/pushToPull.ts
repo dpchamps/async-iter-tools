@@ -18,14 +18,14 @@ export const pushToPull = <T>(
     throw: (e?: any) => rej(e),
   });
 
-  return (async function* () : AsyncGenerator<T, undefined, unknown> {
+  return (async function* (): AsyncGenerator<T, undefined, unknown> {
     while (true) {
       try {
         const { value, done } = await new Promise<IteratorResult<T>>(
-            (resolve, reject) => {
-              res = resolve;
-              rej = reject;
-            }
+          (resolve, reject) => {
+            res = resolve;
+            rej = reject;
+          }
         );
 
         yield value;
@@ -36,4 +36,4 @@ export const pushToPull = <T>(
       }
     }
   })();
-}
+};

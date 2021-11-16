@@ -1,10 +1,11 @@
-
 // This is just a helper to coerce the kind of slippery iter result interface.
 export const iteratorResult = <T>(value: T, done: boolean): IteratorResult<T> =>
-    done ? {
+  done
+    ? {
         value,
-        done: true
-    } : {
+        done: true,
+      }
+    : {
         value,
-        done: false
-    }
+        done: false,
+      };

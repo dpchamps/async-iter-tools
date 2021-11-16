@@ -1,37 +1,37 @@
-import {createDeferred, Deferred} from "./deferred";
+import { createDeferred, Deferred } from "./deferred";
 
 interface Node<T> {
-    value: T;
-    tail: Promise<Node<T>>;
+  value: T;
+  tail: Promise<Node<T>>;
 }
 
 export class PromiseQueue<T> {
-    private head = createDeferred<Node<T>>();
-    private promises = new Set<Promise<unknown>>();
+  private head = createDeferred<Node<T>>();
+  private promises = new Set<Promise<unknown>>();
 
-    get size() {
-        return this.promises.size;
-    }
+  get size() {
+    return this.promises.size;
+  }
 
-    enqueue(value: T) {
-        const next = createDeferred<Node<T>>();
+  enqueue(value: T) {
+    const next = createDeferred<Node<T>>();
 
-        this.promises.add(next.promise);
+    this.promises.add(next.promise);
 
-        this.head.resolve({
-            value,
-            tail: next.promise,
-        });
+    this.head.resolve({
+      value,
+      tail: next.promise,
+    });
 
-        this.head.resolve = next.resolve;
-    }
+    this.head.resolve = next.resolve;
+  }
 
-    async dequeue() {
-        const { value, tail } = await this.head.promise;
+  async dequeue() {
+    const { value, tail } = await this.head.promise;
 
-        this.head.promise = tail;
-        this.promises.delete(tail);
+    this.head.promise = tail;
+    this.promises.delete(tail);
 
-        return value;
-    }
+    return value;
+  }
 }
