@@ -16,8 +16,8 @@ const go = async () => {
 
     const iter = merge(
         map(on(cp, "message"), intoMessage),
+        map(on(cp, "exit"), intoExit),
         throws(map(on(cp, "error"), intoError)),
-        map(on(cp, "exit"), intoExit)
     );
 
     try{
