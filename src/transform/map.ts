@@ -1,5 +1,6 @@
 import {InferAsyncIterator, RequiredAsyncIterableIterator} from "../utility-types";
 import {intoAsyncIterableIterator} from "../utils/intoAsyncIterableIterator";
+import {iteratorResult} from "../utils/iterator-result";
 
 export const map = <T extends AsyncIterator<any>, U>(
   it: T,
@@ -9,14 +10,9 @@ export const map = <T extends AsyncIterator<any>, U>(
   next: async (...args: Parameters<typeof it["next"]>) => {
     const result = await it.next(...args);
 
-    return result.done
-      ? {
-          done: result.done,
-          value: result.value,
-        }
-      : {
-          done: result.done,
-          value: cb(result.value),
-        };
+    return iteratorResult(
+        result.done ? result.value : cb(result.value),
+        result.done ? result.done : false
+    )
   }
 });
