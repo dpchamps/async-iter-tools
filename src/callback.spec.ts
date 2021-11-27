@@ -1,7 +1,6 @@
 import {callback} from "./callback";
 import {delay} from "./utils";
-import {map} from "./map";
-import {collect} from "./collect";
+import {map} from "./transform/map";
 import {clearTimeout} from "timers";
 
 describe("callback", () => {
@@ -54,7 +53,7 @@ describe("callback", () => {
             if(el === 5) break;
         }
 
-        await iter.return!();
+        await iter.return();
     });
 
     it("Should pass args to callback", async () => {

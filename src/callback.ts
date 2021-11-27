@@ -1,5 +1,5 @@
 import {PromiseQueue} from "./utils/promise-queue";
-import {asyncIteratorFactory} from "./utils/AsyncIteratorFactory";
+import {asyncIteratorFactory} from "./utils/asyncIteratorFactory";
 import {noop} from "./utils";
 
 type Tuple<T> = readonly T[]

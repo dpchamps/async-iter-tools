@@ -1,6 +1,6 @@
 import { pushToPull } from "./pushToPull";
 import { EventEmitter } from "events";
-import { collect } from "./collect";
+import { collect } from "./core/collect";
 
 describe.skip("pushToPull Async Iterator", () => {
   type EventEmitterIterator =

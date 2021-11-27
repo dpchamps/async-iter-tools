@@ -1,10 +1,11 @@
-import { InferAsyncIterator } from "./utility-types";
+import {InferAsyncIterator, RequiredAsyncIterableIterator} from "../utility-types";
+import {intoAsyncIterableIterator} from "../utils/intoAsyncIterableIterator";
 
 export const map = <T extends AsyncIterator<any>, U>(
   it: T,
   cb: (x: InferAsyncIterator<T>) => U
-): AsyncIterableIterator<U> => ({
-  ...it,
+): RequiredAsyncIterableIterator<U> => ({
+  ...intoAsyncIterableIterator(it),
   next: async (...args: Parameters<typeof it["next"]>) => {
     const result = await it.next(...args);
 
@@ -17,8 +18,5 @@ export const map = <T extends AsyncIterator<any>, U>(
           done: result.done,
           value: cb(result.value),
         };
-  },
-  [Symbol.asyncIterator]() {
-    return this;
-  },
+  }
 });

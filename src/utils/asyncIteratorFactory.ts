@@ -1,12 +1,9 @@
 import {iteratorResult} from "./iterator-result";
+import {TypedAsyncIterableIterator} from "../utility-types";
 
 interface FactoryArgs<T, U = undefined> {
     onNext: (...args: [] | [U]) => Promise<T>,
     cleanup: () => void,
-}
-
-interface TypedAsyncIterableIterator<T, TArgs = undefined> extends AsyncIterator<T, any, TArgs> {
-    [Symbol.asyncIterator](): TypedAsyncIterableIterator<T, TArgs>;
 }
 
 export const asyncIteratorFactory = <T, U = any, V = undefined>(factoryArgs: FactoryArgs<T>): Required<TypedAsyncIterableIterator<T>> => {

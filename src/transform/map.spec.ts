@@ -1,5 +1,5 @@
 import { map } from "./map";
-import { delay } from "./utils";
+import { delay } from "../utils";
 
 describe("Map async iterator", () => {
   it("Should map an async iterator", async () => {
@@ -12,7 +12,6 @@ describe("Map async iterator", () => {
     }
 
     const mapped = map(fn(), (x) => String(x * x));
-
     await expect(mapped.next()).resolves.toEqual({ value: "1", done: false });
     await expect(mapped.next()).resolves.toEqual({ value: "4", done: false });
     await expect(mapped.next()).resolves.toEqual({ value: "9", done: false });

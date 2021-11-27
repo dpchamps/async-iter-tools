@@ -6,3 +6,9 @@ export type Awaited<T extends PromiseLike<unknown>> = T extends PromiseLike<
 
 export type InferAsyncIterator<T extends AsyncIterator<unknown>> =
   T extends AsyncIterator<infer U> ? U : never;
+
+export interface TypedAsyncIterableIterator<T, TArgs = undefined> extends AsyncIterator<T, any, TArgs> {
+    [Symbol.asyncIterator](): TypedAsyncIterableIterator<T, TArgs>;
+}
+
+export type RequiredAsyncIterableIterator<T, TArgs = undefined> = Required<TypedAsyncIterableIterator<T,  TArgs>>;
