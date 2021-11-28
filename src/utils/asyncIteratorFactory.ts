@@ -1,12 +1,12 @@
 import {iteratorResult} from "./iterator-result";
-import {TypedAsyncIterableIterator} from "../utility-types";
+import {RequiredAsyncIterableIterator, TypedAsyncIterableIterator} from "./types";
 
 interface FactoryArgs<T, U = undefined> {
     onNext: (...args: [] | [U]) => Promise<T>,
     cleanup: () => void,
 }
 
-export const asyncIteratorFactory = <T, U = any, V = undefined>(factoryArgs: FactoryArgs<T>): Required<TypedAsyncIterableIterator<T>> => {
+export const asyncIteratorFactory = <T, U = any, V = undefined>(factoryArgs: FactoryArgs<T>): RequiredAsyncIterableIterator<T> => {
     let done = false;
     const config = factoryArgs;
 

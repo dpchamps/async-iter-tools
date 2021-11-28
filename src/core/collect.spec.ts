@@ -1,4 +1,4 @@
-import {delay} from "../utils";
+import {delay} from "../utils/fns";
 import {collect} from "./collect";
 
 describe("collect", () => {

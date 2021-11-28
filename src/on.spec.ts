@@ -1,6 +1,6 @@
 import { on } from "./on";
 import EventEmitter from "events";
-import { identity } from "./utils";
+import { identity } from "./utils/fns";
 
 describe("on", () => {
   it("Should transport an event emitter into async iterator", async () => {

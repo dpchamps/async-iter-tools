@@ -1,5 +1,5 @@
 import { merge } from "./merge";
-import { delay } from "./utils";
+import { delay } from "./utils/fns";
 
 describe("Merge Iterators", () => {
   it("Should merge a single async iterator unchanged", async () => {

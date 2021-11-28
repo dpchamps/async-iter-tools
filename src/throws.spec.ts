@@ -1,6 +1,6 @@
 import { throws } from "./throws";
 import { always } from "./always";
-import { identity } from "./utils";
+import { identity } from "./utils/fns";
 import exp from "constants";
 
 describe("throws", () => {

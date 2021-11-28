@@ -1,5 +1,5 @@
 import { map } from "./map";
-import { delay } from "../utils";
+import { delay } from "../utils/fns";
 
 describe("Map async iterator", () => {
   it("Should map an async iterator", async () => {

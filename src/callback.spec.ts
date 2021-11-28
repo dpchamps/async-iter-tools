@@ -1,5 +1,5 @@
 import {callback} from "./callback";
-import {delay} from "./utils";
+import {delay} from "./utils/fns";
 import {map} from "./transform/map";
 import {clearTimeout} from "timers";
 

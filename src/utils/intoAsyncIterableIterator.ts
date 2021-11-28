@@ -1,4 +1,4 @@
-import {InferAsyncIterator, RequiredAsyncIterableIterator} from "../utility-types";
+import {InferAsyncIterator, RequiredAsyncIterableIterator} from "./types";
 import {iteratorResult} from "./iterator-result";
 
 export const intoAsyncIterableIterator = <T extends AsyncIterator<any>>(it: T): RequiredAsyncIterableIterator<InferAsyncIterator<T>> => ({

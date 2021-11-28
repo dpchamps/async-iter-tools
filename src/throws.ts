@@ -1,4 +1,4 @@
-import { error, identity } from "./utils";
+import { error, identity } from "./utils/fns";
 
 export async function* throws<T>(
   iter: AsyncIterator<T>,

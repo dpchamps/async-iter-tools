@@ -4,7 +4,7 @@ export type Awaited<T extends PromiseLike<unknown>> = T extends PromiseLike<
   ? U
   : never;
 
-export type InferAsyncIterator<T extends AsyncIterator<unknown>> =
+export type InferAsyncIterator<T extends AsyncIterator<any>> =
   T extends AsyncIterator<infer U> ? U : never;
 
 export interface TypedAsyncIterableIterator<T, TArgs = undefined> extends AsyncIterator<T, any, TArgs> {

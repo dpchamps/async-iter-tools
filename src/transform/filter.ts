@@ -1,4 +1,4 @@
-import {InferAsyncIterator, RequiredAsyncIterableIterator} from "../utility-types";
+import {InferAsyncIterator, RequiredAsyncIterableIterator} from "../utils/types";
 import {intoAsyncIterableIterator} from "../utils/intoAsyncIterableIterator";
 import {iteratorResult} from "../utils/iterator-result";
 

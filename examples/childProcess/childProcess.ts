@@ -13,7 +13,6 @@ const intoExit = ([message]: unknown[]) => type("exit", message);
 const go = async () => {
     const cp = fork(`${__dirname}/child.js`);
     const interval = setInterval(() => cp.send("Send"), 1000);
-
     const iter = merge(
         map(on(cp, "message"), intoMessage),
         map(on(cp, "exit"), intoExit),
