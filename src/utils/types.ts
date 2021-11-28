@@ -1,8 +1,5 @@
-export type Awaited<T extends PromiseLike<unknown>> = T extends PromiseLike<
-  infer U
->
-  ? U
-  : never;
+export type Tuple<T> = readonly T[]
+export type Tail<T extends Tuple<any>> = T extends [any, ...infer U] ? U : never;
 
 export type InferAsyncIterator<T extends AsyncIterator<any>> =
   T extends AsyncIterator<infer U> ? U : never;
