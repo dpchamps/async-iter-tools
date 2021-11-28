@@ -1,12 +1,12 @@
 import {collect} from "./collect";
 import {take} from "./take";
-import {always} from "../always";
+import {repeat} from "./repeat";
 
 describe('take', () => {
     it("Should take the number specified", async () => {
         const mock = jest.fn();
         await expect(
-            collect(take(always(mock), 5))
+            collect(take(repeat(mock), 5))
         ).resolves.toHaveLength(5);
         expect(mock).toHaveBeenCalledTimes(5)
     });

@@ -1,8 +1,8 @@
-import { always } from "./always";
+import { repeat } from "./repeat";
 
 describe("always", () => {
   it("Should emit the supplied value", async () => {
-    const iter = always(() => 1);
+    const iter = repeat(() => 1);
 
     await expect(iter.next()).resolves.toEqual({
       value: 1,
@@ -19,7 +19,7 @@ describe("always", () => {
   });
 
   it("Should emit promises", async () => {
-    const iter = always(() => Promise.resolve("Hey"));
+    const iter = repeat(() => Promise.resolve("Hey"));
 
     await expect(iter.next()).resolves.toEqual({
       value: "Hey",

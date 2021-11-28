@@ -1,16 +1,15 @@
 import { throws } from "./throws";
-import { always } from "./always";
+import { repeat } from "./core/repeat";
 import { identity } from "./utils/fns";
-import exp from "constants";
 
 describe("throws", () => {
   it("Should throw on step", async () => {
-    const doThrow = throws(always(() => 1));
+    const doThrow = throws(repeat(() => 1));
     await expect(doThrow.next()).rejects.toEqual(1);
   });
 
   it("Should throw on the initial iterator if present", async () => {
-    const emitOne = always(() => 1);
+    const emitOne = repeat(() => 1);
     jest.spyOn(emitOne, "throw");
     const doThrow = throws(emitOne);
 
@@ -33,7 +32,7 @@ describe("throws", () => {
   });
 
   it("Should throw only once", async () => {
-    const doThrow = throws(always(() => 1));
+    const doThrow = throws(repeat(() => 1));
 
     await expect(doThrow.next()).rejects.toEqual(1);
     await expect(doThrow.next()).resolves.toEqual({
@@ -44,7 +43,7 @@ describe("throws", () => {
 
   it("Should transform emitted values", async () => {
     const doThrow = throws(
-      always(() => 1),
+      repeat(() => 1),
       (x) => new Error(String(x))
     );
     await expect(doThrow.next()).rejects.toThrow(new Error(`1`));
