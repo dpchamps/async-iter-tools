@@ -1,6 +1,6 @@
-import {asyncIteratorFactory} from "./utils/asyncIteratorFactory";
-import {iteratorResult} from "./utils/iterator-result";
-import {RequiredAsyncIterableIterator} from "./utils/types";
+import { asyncIteratorFactory } from "./utils/asyncIteratorFactory";
+import { iteratorResult } from "./utils/iterator-result";
+import { RequiredAsyncIterableIterator } from "./utils/types";
 
 type AI = AsyncIterator<unknown>;
 type IntoAsyncGen<T extends AsyncIterator<unknown>> = T extends AsyncIterator<
@@ -65,21 +65,21 @@ export function merge<T extends AI, U extends AI>(
 ): IntoAsyncGen<T | U>;
 export function merge<T extends AI>(it1: T): IntoAsyncGen<T>;
 
-export function merge(...asyncIterators: AsyncIterator<unknown>[]){
+export function merge(...asyncIterators: AsyncIterator<unknown>[]) {
   let done = false;
   const iteratorMap = new Map(
-      asyncIterators.map((iterator) => [
+    asyncIterators.map((iterator) => [
+      iterator,
+      iterator.next().then((result) => ({
+        result,
         iterator,
-        iterator.next().then((result) => ({
-          result,
-          iterator,
-        })),
-      ])
+      })),
+    ])
   );
 
   return {
-    async next(){
-      if(done) return iteratorResult(undefined, true);
+    async next() {
+      if (done) return iteratorResult(undefined, true);
       while (iteratorMap.size > 0) {
         const {
           result: { value, done },
@@ -92,8 +92,8 @@ export function merge(...asyncIterators: AsyncIterator<unknown>[]){
         }
 
         iteratorMap.set(
-            iterator,
-            iterator.next().then((result) => ({ result, iterator }))
+          iterator,
+          iterator.next().then((result) => ({ result, iterator }))
         );
 
         return iteratorResult(value, false);
@@ -101,23 +101,33 @@ export function merge(...asyncIterators: AsyncIterator<unknown>[]){
 
       return iteratorResult(undefined, true);
     },
-    async throw(value?: unknown){
+    async throw(value?: unknown) {
       done = true;
-      await Promise.allSettled([...iteratorMap].map(([iter]) =>
-          typeof iter.throw !== "undefined" ? iter.throw(value) : Promise.resolve()
-      ));
+      await Promise.allSettled(
+        [...iteratorMap].map(([iter]) =>
+          typeof iter.throw !== "undefined"
+            ? iter.throw(value)
+            : Promise.resolve()
+        )
+      );
       iteratorMap.clear();
 
-      throw value
+      throw value;
     },
-    async return<U>(value: U){
+    async return<U>(value: U) {
       done = true;
-      await Promise.all([...iteratorMap].map(([iter]) =>
-          typeof iter.return !== "undefined" ? iter.return(value) : Promise.resolve(iteratorResult(undefined, true))
-      ));
+      await Promise.all(
+        [...iteratorMap].map(([iter]) =>
+          typeof iter.return !== "undefined"
+            ? iter.return(value)
+            : Promise.resolve(iteratorResult(undefined, true))
+        )
+      );
 
       return iteratorResult(value, true);
     },
-    [Symbol.asyncIterator](){ return this }
-  }
+    [Symbol.asyncIterator]() {
+      return this;
+    },
+  };
 }

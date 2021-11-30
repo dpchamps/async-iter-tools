@@ -17,7 +17,7 @@ export const asyncIteratorFactory = <T, U = any, V = undefined>(
 
   const cleanup = async () => {
     done = true;
-    await  config.cleanup();
+    await config.cleanup();
   };
 
   return {

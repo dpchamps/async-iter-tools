@@ -1,6 +1,6 @@
 import { merge } from "./merge";
 import { delay } from "./utils/fns";
-import {callback} from "./callback";
+import { callback } from "./callback";
 
 describe("Merge Iterators", () => {
   it("Should merge a single async iterator unchanged", async () => {
@@ -79,13 +79,13 @@ describe("Merge Iterators", () => {
 
     await expect(slow.next()).resolves.toEqual({
       value: undefined,
-      done: true
+      done: true,
     });
 
     await expect(fast.next()).resolves.toEqual({
       value: undefined,
-      done: true
-    })
+      done: true,
+    });
   });
 
   it("Should cleanup supplied iterators on throw", async () => {
@@ -93,16 +93,16 @@ describe("Merge Iterators", () => {
     const fast = callback(setInterval, clearInterval, 1);
     const merged = merge(slow, fast);
 
-    await merged.throw().catch(e => {});
+    await merged.throw().catch((e) => {});
 
     await expect(slow.next()).resolves.toEqual({
       value: undefined,
-      done: true
+      done: true,
     });
 
     await expect(fast.next()).resolves.toEqual({
       value: undefined,
-      done: true
+      done: true,
     });
   });
 
@@ -120,7 +120,7 @@ describe("Merge Iterators", () => {
 
     const merged = merge(fn2(), fn3());
 
-    for await(const value of merged){
+    for await (const value of merged) {
       results.push(value);
     }
 
@@ -136,38 +136,38 @@ describe("Merge Iterators", () => {
 
     await expect(merged.next()).resolves.toEqual({
       value: undefined,
-      done: true
+      done: true,
     });
   });
 
   it("It should handle return with partial iterables", async () => {
     const iterable = () => ({
-      async next(){
+      async next() {
         return {
           value: undefined,
-          done: false
+          done: false,
         };
-      }
+      },
     });
 
     const x = merge(iterable());
-    const {value} = await x.return("value");
+    const { value } = await x.return("value");
 
     expect(value).toEqual("value");
   });
 
   it("It should handle throw with partial iterables", async () => {
     const iterable = () => ({
-      async next(){
+      async next() {
         return {
           value: undefined,
-          done: false
+          done: false,
         };
-      }
+      },
     });
 
     const x = merge(iterable());
 
-    await expect(x.throw("value")).rejects.toEqual("value")
+    await expect(x.throw("value")).rejects.toEqual("value");
   });
 });
