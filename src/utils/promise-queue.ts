@@ -1,4 +1,4 @@
-import { createDeferred, Deferred } from "./deferred";
+import { createDeferred } from "./deferred";
 
 interface Node<T> {
   value: T;
