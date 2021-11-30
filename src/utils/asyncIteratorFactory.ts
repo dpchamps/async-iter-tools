@@ -6,7 +6,7 @@ import {
 
 interface FactoryArgs<T, U = undefined> {
   onNext: (...args: [] | [U]) => Promise<T>;
-  cleanup: () => void;
+  cleanup: () => void | Promise<void>;
 }
 
 export const asyncIteratorFactory = <T, U = any, V = undefined>(
@@ -15,9 +15,9 @@ export const asyncIteratorFactory = <T, U = any, V = undefined>(
   let done = false;
   const config = factoryArgs;
 
-  const cleanup = () => {
+  const cleanup = async () => {
     done = true;
-    config.cleanup();
+    await  config.cleanup();
   };
 
   return {
@@ -32,12 +32,12 @@ export const asyncIteratorFactory = <T, U = any, V = undefined>(
     },
 
     async throw(e?: unknown) {
-      cleanup();
+      await cleanup();
       throw e;
     },
 
     async return(value?) {
-      cleanup();
+      await cleanup();
       return iteratorResult(value, true);
     },
 
