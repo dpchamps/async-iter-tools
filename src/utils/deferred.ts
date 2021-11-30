@@ -5,7 +5,9 @@ export type Deferred<T> = {
 };
 
 export const createDeferred = <T>(): Deferred<T> => {
-  let resolve = /*istanbul ignore next, reason: erased value*/ (_value: T | PromiseLike<T>) => {};
+  let resolve = /*istanbul ignore next, reason: erased value*/ (
+    _value: T | PromiseLike<T>
+  ) => {};
   let reject = /*istanbul ignore next, reason: erased value*/ () => {};
   let promise = new Promise<T>((res, rej) => {
     resolve = res;
