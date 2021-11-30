@@ -1,14 +1,15 @@
 {
-  "name": "async-iter-tools",
-  "version": "1.0.0",
+  "name": "async-iterator-tools",
+  "version": "1.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "test": "jest",
     "test:ci": "jest --runInBand",
     "format": "prettier --write ./src",
     "lint": "prettier --check ./src",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "compile": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -22,5 +23,6 @@
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3"
-  }
+  },
+  "files": ["lib"]
 }
